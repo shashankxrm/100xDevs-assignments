@@ -4,9 +4,14 @@
   - Input: [3, 7, 2, 9, 1]
   - Output: 9
 */
-
 function findLargestElement(numbers) {
-    
+    let maxEle = numbers[0];
+    for(let i = 0; i < numbers.length; i++){
+        if(numbers[i] > maxEle){
+            maxEle = numbers[i];
+        }
+    }
+    return maxEle;
 }
 
 module.exports = findLargestElement;
