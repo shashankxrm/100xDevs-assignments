@@ -1,41 +1,35 @@
 /*
   Implement a function `calculateTotalSpentByCategory` which takes a list of transactions as parameter
   and return a list of objects where each object is unique category-wise and has total price spent as its value.
-  transactions is an array where each
-  Transaction - an object like 
-        {
-		id: 1,
-		timestamp: 1656076800000,
-		price: 10,
-		category: 'Food',
-		itemName: 'Pizza',
-	}
-  Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
+  Transaction - an object like { itemName, category, price, timestamp }.
+  Output - [{ category1 - total_amount_spent_on_category1 }, { category2 - total_amount_spent_on_category2 }]
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  const categoryTotals = {};
+	let resultObj = {};
+	for (let transaction of transactions) {
+		let category = transaction.category;
+		let price = transaction.price;
 
-  // Iterate through each transaction
-  transactions.forEach(transaction => {
-    const { category, price } = transaction;
+		if (!(category in resultObj)) {
+			resultObj[category] = price;
+		} else {
+			resultObj[category] += price;
+		}
+	}
 
-    // If the category is not in the categoryTotals object, initialize it with the current price
-    if (!categoryTotals[category]) {
-      categoryTotals[category] = price;
-    } else {
-      // If the category is already in the categoryTotals object, add the current price to it
-      categoryTotals[category] += price;
-    }
-  });
+	let resultArr = [];
 
-  // Convert the categoryTotals object into an array of objects
-  const result = Object.keys(categoryTotals).map(category => ({
-    category,
-    totalSpent: categoryTotals[category]
-  }));
+	for (let currentCategory in resultObj) {
+		let tempObj = {
+			category: currentCategory,
+			totalSpent: resultObj[currentCategory],
+		};
 
-  return result;
+		resultArr.push(tempObj);
+	}
+
+	return resultArr;
 }
 
 module.exports = calculateTotalSpentByCategory;
